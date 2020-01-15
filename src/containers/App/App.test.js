@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { App, mapStateToProps, mapDispatchToProps } from './App';
-import { removeUser, hasErrored } from '../../actions';
+import { removeUser, hasErrored, clearMessages } from '../../actions';
 import { endConversation } from '../../apiCalls';
 
 jest.mock('../../apiCalls');
@@ -106,4 +106,14 @@ describe('mapDispatchToProps', () => {
 
     expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
   });
+
+  it('call dispatch with a clearMessages acton when clearMessages is called', () => {
+    const mockDispatch = jest.fn();
+    const actionToDispatch = clearMessages();
+
+    const mappedProps = mapDispatchToProps(mockDispatch);
+    mappedProps.clearMessages();
+
+    expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
+  })
 });
