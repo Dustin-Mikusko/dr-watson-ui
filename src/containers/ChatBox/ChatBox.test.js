@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { ChatBox, mapStateToProps, mapDispatchToProps } from './ChatBox';
-import { hasErrored } from '../../actions';
+import { hasErrored, addMessage } from '../../actions';
 import { postMessage } from '../../apiCalls';
 
 jest.mock('../../apiCalls');
@@ -133,6 +133,10 @@ describe('mapStateToProps', () => {
       errorMsg: ''
     };
     const expected = {
+      messages: [{
+        message: 'Hi there, my name is Dr. Watson. I understand that you have been feeling happy. That is super exciting to hear!',
+        isUser: false,
+      }],
       errorMsg: ''
     };
     const mappedProps = mapStateToProps(mockState);
@@ -151,4 +155,15 @@ describe('mapDispatchToProps', () => {
 
     expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
   });
+
+  it('call dispatch with a addMessage acton when addMessage is called', () => {
+    const mockMessage = 'This is a message';
+    const mockDispatch = jest.fn();
+    const actionToDispatch = addMessage(mockMessage, false);
+
+    const mappedProps = mapDispatchToProps(mockDispatch);
+    mappedProps.addMessage(mockMessage, false);
+
+    expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
+  })
 });
