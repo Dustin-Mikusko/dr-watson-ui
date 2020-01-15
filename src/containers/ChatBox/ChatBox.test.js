@@ -68,7 +68,7 @@ describe('ChatBox component', () => {
     expect(wrapper.instance().messageChatBot).toHaveBeenCalled();
   });
 
-  it('should call addMessage, messageChatBot, and clear state when calling handleSubmit clicking the button', () => {
+  it('should call addMessage, messageChatBot, and clear state when calling handleSubmit when clicking button', () => {
     wrapper = mount(<ChatBox
       addMessage={mockAddMessage}
       messages={mockMessages}

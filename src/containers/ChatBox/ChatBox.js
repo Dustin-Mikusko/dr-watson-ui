@@ -10,7 +10,7 @@ import "./ChatBox.css"
 export class ChatBox extends Component {
   constructor() {
     super();
-    this.state = { message: '', error: '' }
+    this.state = { message: '' }
     this.convo = createRef();
   }
 
@@ -22,19 +22,11 @@ export class ChatBox extends Component {
     this.setState({ message: e.target.value });
   }
 
-  checkMessage = (e) => {
-    if (!this.state.message) {
-      this.setState({ error: 'Please include a message'});
-    } else {
-      this.handleSubmit(e)
-    }
-  }
-
   handleSubmit = e => {
     if (e.key === 'Enter' || e.button === 0) {
       const { message } = this.state;
       this.props.addMessage(message, true);
-      this.setState({ message: '', error: '' });
+      this.setState({ message: '' });
       this.messageChatBot();
     }
   }
@@ -71,8 +63,7 @@ export class ChatBox extends Component {
             onChange={this.handleChange}
             onKeyPress={this.handleSubmit}
           />
-          {this.state.error && <p>{this.state.error}</p>}
-          <button onClick={this.checkMessage}>Submit</button>
+          <button onClick={this.handleSubmitw}>Submit</button>
         </section>
       </main>
     )

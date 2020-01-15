@@ -27,9 +27,7 @@ exports[`ChatBox component should match the snapshot rendering all messages 1`] 
       placeholder="Chat with Survey Bot here..."
       value=""
     />
-    <button
-      onClick={[Function]}
-    >
+    <button>
       Submit
     </button>
   </section>
@@ -68,9 +66,7 @@ exports[`ChatBox component should match the snapshot rendering an error if there
       placeholder="Chat with Survey Bot here..."
       value=""
     />
-    <button
-      onClick={[Function]}
-    >
+    <button>
       Submit
     </button>
   </section>
