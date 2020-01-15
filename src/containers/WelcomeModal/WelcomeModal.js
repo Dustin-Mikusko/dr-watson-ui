@@ -39,7 +39,7 @@ export class WelcomeModal extends Component {
 
   checkInputs = () => {
     if (this.state.firstName === '' || this.state.lastName === '' || this.state.feeling === '') {
-      this.setState({ error: 'Please fill out the entire form.' });
+      this.setState({ error: 'Please make sure you have filled everything out.' });
     }
   }
 

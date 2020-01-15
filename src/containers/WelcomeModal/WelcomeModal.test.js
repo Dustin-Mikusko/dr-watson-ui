@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { WelcomeModal, mapDispatchToProps } from './WelcomeModal';
-import { createUser, hasErrored } from '../../actions';
+import { createUser, hasErrored, addMessage } from '../../actions';
 import { startConversation } from '../../apiCalls';
 
 jest.mock('../../apiCalls');
@@ -54,21 +54,26 @@ describe('WelcomeModal component', () => {
     expect(wrapper.state('firstName')).toEqual('Travis');
   });
 
-  it('should call createUser with correct arguments and connectToChatBot', () => {
+  it('should call createUser with correct arguments and connectToChatBot', async () => {
     global.Date.now = jest.fn().mockImplementation(() => 12345);
     wrapper.instance().connectToChatBot = jest.fn();
     const mockEvent = {
       preventDefault: jest.fn()
     };
-
+    const mockState = {
+      firstName: 'Travis',
+      lastName: 'Rollins',
+      feeling: 'Happy',
+      error: ''
+    }
     const mockUser = {
       firstName: 'Travis',
       lastName: 'Rollins',
       feeling: 'Happy',
     };
 
-    wrapper.instance().setState(mockUser);
-    wrapper.instance().handleSubmit(mockEvent);
+    await wrapper.instance().setState(mockState);
+    await wrapper.instance().handleSubmit(mockEvent);
 
     expect(mockCreateUser).toHaveBeenCalledWith({ ...mockUser, id: 12345 });
     expect(wrapper.instance().connectToChatBot).toHaveBeenCalled();
@@ -130,6 +135,18 @@ describe('WelcomeModal component', () => {
     expect(wrapper.instance().handleChange).toHaveBeenCalledWith(mockFeelingEvent);
   });
 
+  it('should update error state if an input is empty when checkInputs is called' , async () => {
+    const mockState = {
+      firstName: '',
+      lastName: 'Altuve',
+      feeling: 'happy'
+    };
+
+    await wrapper.instance().checkInputs();
+
+    expect(wrapper.state('error')).toEqual('Please make sure you have filled everything out.')
+  })
+
   it('should run handleSubmit on click of button', () => {
     const mockEvent = { preventDefault: jest.fn() };
     wrapper.instance().handleSubmit = jest.fn();
@@ -164,6 +181,17 @@ describe('mapDispatchToProps', () => {
 
     const mappedProps = mapDispatchToProps(mockDispatch);
     mappedProps.hasErrored('fetch failed');
+
+    expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
+  });
+
+  it('call dispatch with a addMessage acton when addMessage is called', () => {
+    const mockMessage = 'This is a message';
+    const mockDispatch = jest.fn();
+    const actionToDispatch = addMessage(mockMessage, false);
+
+    const mappedProps = mapDispatchToProps(mockDispatch);
+    mappedProps.addMessage(mockMessage, false);
 
     expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
   });

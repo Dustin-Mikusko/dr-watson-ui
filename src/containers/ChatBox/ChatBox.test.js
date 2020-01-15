@@ -165,5 +165,5 @@ describe('mapDispatchToProps', () => {
     mappedProps.addMessage(mockMessage, false);
 
     expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch);
-  })
+  });
 });
