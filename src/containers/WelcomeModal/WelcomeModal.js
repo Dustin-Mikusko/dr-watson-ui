@@ -20,16 +20,27 @@ export class WelcomeModal extends Component {
     this.setState({ [e.target.name]: e.target.value, error: '' });
   }
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     const { firstName, lastName, feeling } = this.state;
     e.preventDefault();
-    this.props.createUser({
-      id: Date.now(),
-      firstName,
-      lastName,
-      feeling,
-    });
-    this.connectToChatBot();
+    await this.checkInputs();
+    if (this.state.error) {
+      return null;
+    } else {
+      this.props.createUser({
+        id: Date.now(),
+        firstName,
+        lastName,
+        feeling,
+      });
+      this.connectToChatBot();
+    }
+  }
+
+  checkInputs = () => {
+    if (this.state.firstName === '' || this.state.lastName === '' || this.state.feeling === '') {
+      this.setState({ error: 'Please fill out the entire form.' });
+    }
   }
 
   connectToChatBot = async () => {
@@ -45,7 +56,7 @@ export class WelcomeModal extends Component {
     const { firstName, lastName, feeling, error } = this.state;
     return (
       <form className="welcome-modal">
-        <legend>Welcome to Survey Bot!  Please enter your name.</legend>
+        <legend>Welcome to Survey Bot! Please enter your name.</legend>
         {error && <p className="error-msg">{error}</p>}
         <label>First Name:
           <input
