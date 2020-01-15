@@ -10,4 +10,13 @@ export const removeUser = () => ({
 export const hasErrored = errorMsg => ({
   type: 'HAS_ERRORED',
   errorMsg
+});
+
+export const addMessage = (message, isUser ) => ({
+  type: 'ADD_MESSAGE',
+  message: {message, isUser}
+});
+
+export const clearMessages = () => ({
+  type: 'CLEAR_MESSAGES',
 })

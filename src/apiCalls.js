@@ -19,7 +19,7 @@ export const startConversation = async feeling => {
 }
 
 export const postMessage = async newMessage => {
-
+  
 }
 
 export const endConversation = async () => {
